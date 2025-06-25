@@ -29,8 +29,17 @@ def create_db_and_tables():
         else:
             logfire.info("Database and tables already exist")
 
-def get_session():
+@contextlib.contextmanager
+def db_session():
     with contextlib.ExitStack() as stack:
         session = stack.enter_context(Session(engine))
         stack.enter_context(logfire.span("DB Session"))
-        yield session
+        try:
+            yield session
+            session.commit()
+        except (SQLModel.SQLModelError, ValueError) as e:
+            session.rollback()
+            logfire.exception(e)
+            raise
+        finally:
+            session.close()

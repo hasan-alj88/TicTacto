@@ -1,0 +1,17 @@
+{
+  "Users": [
+    {}
+  ],
+  "games": [
+    {
+      "name": "TicTacTo",
+      "description": "",
+      "available": true
+    },
+    {
+      "name": "Rock,Paper,Scissors,lizard,spock",
+      "description": "",
+      "available": false
+    }
+  ]
+}

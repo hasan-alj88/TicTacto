@@ -1,29 +1,18 @@
+import logfire
+from decouple import config
 from fastapi import APIRouter, status, Depends, HTTPException
 from typing import Annotated
+import jwt
+from jwt.exceptions import JWTException
+from passlib.exc import InvalidTokenError
 from sqlmodel import Session
-from app.database.models import (
-    UserRead,
-    UserCreate,
-)
-from app.database.DataBaseSetup import get_session
-from app.database.crud import create_user
+from starlette.responses import FileResponse
+
+from app.DataModels.AuthData import TokenData
+from app.database.DataBaseSetup import db_session
+
+from pathlib import Path
+
+from app.database.models import User
 
 route_authentication = APIRouter()
-
-
-@route_authentication.post(
-    "/register",
-    response_model=UserRead,
-    status_code=status.HTTP_201_CREATED)
-def register_user(
-    user: UserCreate,
-    session: Annotated[Session, Depends(get_session)]
-):
-    """
-    Register a new user - public endpoint
-    """
-    try:
-        db_user = create_user(session, user)
-        return db_user
-    except HTTPException:
-        raise
