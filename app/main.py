@@ -43,13 +43,13 @@ app.mount(str(static_dir), StaticFiles(directory=static_dir), name="static")
 
 @app.get("/")
 async def home_page():
-    return FileResponse(static_dir/'home.html')
+    return FileResponse(static_dir/'HTML'/'Login.html')
 
 @app.get("/register")
 async def register_page():
-    return FileResponse(static_dir/'registration.html')
+    return FileResponse(static_dir/'HTML'/'registration.html')
 
 
-app.include_router(route_authentication, prefix='/auth', tags=['Authentication'])
-app.include_router(route_game_lobby, prefix='/game_lobby', tags=['GameLobby'])
-app.include_router(route_tictactoe, prefix='/tictactoe', tags=['TicTacToe'])
+app.include_router(route_authentication)
+app.include_router(route_game_lobby)
+app.include_router(route_tictactoe)

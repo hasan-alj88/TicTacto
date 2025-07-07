@@ -4,8 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
 from app.database.DataBaseSetup import db_session
-from app.database.models.TicTacToGame import TicTacToeGames, TicTacToeMoveHistory
-from app.database.models import User
+from app.database.models import TicTacToeGames, TicTacToeMoveHistory, User
 
 route_tictactoe = APIRouter()
 

@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from dotenv import load_dotenv
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 
 load_dotenv()
 TOKEN_EXPIRE_MINUTES = int(float(str(1440*2)))
@@ -13,3 +13,10 @@ class UserCreateData(BaseModel):
 class LoginData(BaseModel):
     username: str
     password_plain: str
+
+class RegisterData(BaseModel):
+    email: EmailStr
+    username: str
+    full_name: str
+    password: str
+    confirm_password: str
