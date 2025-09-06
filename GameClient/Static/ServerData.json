@@ -1,0 +1,14 @@
+[
+    {
+        "GameName": "TicTacToe",
+        "GameID": 11
+    },
+    {
+        "GameName": "Blackjack",
+        "GameID": 12
+    },
+    {
+        "GameName": "RockPaperScissorsLizardSpock",
+        "GameID": 13
+    }
+]
