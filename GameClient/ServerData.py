@@ -1,39 +1,25 @@
 from nicegui import ui
+from dataclasses import dataclass, field
+from typing import Dict
+import numpy as np
 
 
 def get_game():
     games_dict = {
-     11:
-        {
-        "GameName": "TicTacToe",
-        "GameIMG":'Static/Images/TicTacToeImage.png'
-    },
-    12:
-        {
-        "GameName": "Blackjack",
-        "GameIMG":'Static/Images/blackjack.png'
-    },
-    13:
-        {
-        "GameName": "RPSLS",
-        "GameIMG": 'Static/Images/rock-paper-scissors.png'
-    }
-    }
-
+     11:{"GameName": "TicTacToe","GameIMG":'Static/Images/TicTacToeImage.png'},
+    12:{"GameName": "Blackjack", "GameIMG":'Static/Images/blackjack.png'},
+    13:{"GameName": "RPSLS","GameIMG": 'Static/Images/rock-paper-scissors.png'}}
     return games_dict
 
 
 def get_online_players_data(gameid: int):
-    people_online = {1:"Testing",2:"Dummy",3:"Dummy2"}
-
     if gameid == 13:
         return   {112:"test_dummy",205:"test_dummy2",3345:"test_dummy3"}
-
     if gameid == 12:
         return   {7:"player1",234:"player2",312:"player3"}
-
     if gameid == 11:
-        return people_online
+        return {1:"Testing",2:"Dummy",3:"Dummy2"}
+
 
 def get_invites_data(gameid: int):
     if gameid == 11:
@@ -43,20 +29,24 @@ def get_invites_data(gameid: int):
     if gameid == 13:
         return {9: "Test_dummy1",10:"Test_dummy2",11:"Test_dummy3"}
 
+
 def player_online_entry(player_name: str, player_id : int, game_eyed : int):
     with ui.row().classes('w-full items-center mb-1'):
         ui.separator()
         ui.label(f'{player_name}').classes('text-lg')
         ui.button('Invite', on_click= lambda: send_game_invite(player_name,player_id,game_eyed),color='green').classes('ml-auto whitespace-normal text-center')
 
+
 def send_game_invite(player_name: str, player_id : int, game_eyed : int):
     ui.notify(f'{player_name, player_id} invited to {game_eyed}')
+
 
 def accept_invite(player_name: str, player_id : int, game_eyed : int):
     with ui.row().classes('w-full items-center mb-1'):
         ui.separator()
         ui.label(f'{player_name}').classes('text-lg')
         ui.button('Accept Invite', on_click= lambda: accepted_invite(player_name,player_id,game_eyed),color='green').classes('ml-auto whitespace-normal text-center')
+
 
 def accepted_invite(player_name: str, player_id : int, game_eyed : int):
     ui.notify(f'{player_name, player_id} accepted a game to {game_eyed}')
@@ -81,6 +71,8 @@ def game_lobby_page(GameID: int):
             accept_invite(game_eyed=GameID,
                           player_id=player_eyed,
                           player_name= players_name )
+
+
 def game_card(game_eyed : int, game_name :str, game_img : str):
     with ui.card().classes('justify-between items-center p-4'):
         ui.label(f'{game_name}').classes('text-2xl font-bold')
@@ -94,11 +86,20 @@ with ui.row().classes('flex-wrap justify-center gap-4 mx-auto'):
 
 
 
-@ui.page('/TicTacToe')
-def tictactoe():
-    print("here is gonna be the game")
-    pass
+# how can we make a new game tab that is private to only the two people, I can create the game interfacing using nicegui
 
-# how can we make a new game tab that is private to only the two people, i can create the game interfacing using nicegui
+
+@ui.page('/TicTacToe')
+def TicTacToe():
+    buttons =  {1:"1,1", 2:'1,2', 3:'1,3',4:'2,1',5:'2,2',6:'2,3',7:'3,1',8:'3,2',9:'3,3'}
+    ui.label('0 - 0').classes('text-7xl justify-between items-center gap-4 mx-auto')
+    with ui.row().classes('grid grid-cols-3 flex justify-between items-center gap-4 mx-auto'):
+        for button in buttons.values():
+            ttt_buttons(button)
+def button_func(button):
+    ttt_label = ui.label(f'{button}')
+
+def ttt_buttons(button):
+    ui.button(f'{button} ', on_click=lambda : button_func(button)).classes('w-48 h-32 text-7xl')
 
 ui.run()
